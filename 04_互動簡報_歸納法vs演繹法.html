@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思維雙刀流：歸納法 vs. 演繹法——國中九年級互動思辨簡報</title>
+<style>
+  :root {
+    --primary: #1e3c72;
+    --primary-light: #2a5298;
+    --inductive-color: #e67e22;
+    --inductive-bg: #fdf2e9;
+    --deductive-color: #27ae60;
+    --deductive-bg: #eafaf1;
+    --dark: #2c3e50;
+    --card-bg: #ffffff;
+    --bg: #f0f4f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "微軟正黑體", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+  header {
+    width: 100%;
+    max-width: 960px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 18px 24px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 20px rgba(30, 60, 114, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header h1 {
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .top-links {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .back-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.35); }
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px;
+    border-radius: 30px;
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn.active, .nav-btn:hover { background: white; color: var(--primary); }
+  .stage {
+    width: 100%;
+    max-width: 960px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 26px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .slide-container { display: flex; flex-direction: column; gap: 16px; }
+  .concept-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 6px;
+  }
+  .concept-card {
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid;
+  }
+  .card-ind { background: var(--inductive-bg); border-color: var(--inductive-color); }
+  .card-ded { background: var(--deductive-bg); border-color: var(--deductive-color); }
+  .concept-card h3 {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .card-ind h3 { color: var(--inductive-color); }
+  .card-ded h3 { color: var(--deductive-color); }
+  .logic-arrow {
+    background: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 13.5px;
+    margin-bottom: 10px;
+    display: inline-block;
+  }
+  .example-box {
+    background: rgba(255,255,255,0.7);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .mencius-spotlight {
+    background: #fdfaf4;
+    border: 2px dashed #b7950b;
+    border-radius: 12px;
+    padding: 14px 18px;
+  }
+  .quiz-container {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .progress-info { font-size: 14px; font-weight: 800; color: var(--primary); }
+  .score-badge {
+    background: #f39c12;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 13.5px;
+  }
+  .progress-bar-bg {
+    width: 100%;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    width: 12.5%;
+    transition: width 0.3s;
+  }
+  .question-box {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .question-tag {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: bold;
+    background: #e2e8f0;
+    color: #475569;
+    margin-bottom: 8px;
+  }
+  .question-text {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .question-hint { font-size: 13px; color: #64748b; font-style: italic; }
+  .answers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .choice-btn {
+    border: 3px solid;
+    padding: 18px 16px;
+    border-radius: 14px;
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    outline: none;
+  }
+  .btn-inductive { background: #fff8f0; border-color: var(--inductive-color); color: var(--inductive-color); }
+  .btn-inductive:hover { background: var(--inductive-color); color: white; transform: translateY(-2px); }
+  .btn-deductive { background: #f0fff4; border-color: var(--deductive-color); color: var(--deductive-color); }
+  .btn-deductive:hover { background: var(--deductive-color); color: white; transform: translateY(-2px); }
+  .choice-btn small { font-size: 12px; font-weight: 600; opacity: 0.85; }
+  .explanation-card {
+    display: none;
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+  .exp-correct { background: #d4edda; border: 1.5px solid #28a745; color: #155724; }
+  .exp-wrong { background: #f8d7da; border: 1.5px solid #dc3545; color: #721c24; }
+  .next-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 26px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    display: none;
+  }
+  .result-container { display: none; text-align: center; padding: 25px 20px; }
+  .restart-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  @media (max-width: 768px) {
+    .concept-cards, .answers-grid { grid-template-columns: 1fr; }
+    .stage { padding: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 思維雙刀流：歸納法 vs. 演繹法</h1>
+  <div class="top-links">
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="switchTab('concept')">📖 概念解析</button>
+      <button class="nav-btn" onclick="switchTab('quiz')">⚡ 擂台挑戰 (8題)</button>
+    </div>
+    <a href="index.html" class="back-btn">⬅ 回首頁</a>
+  </div>
+</header>
+
+<main class="stage">
+  <div id="conceptView" class="slide-container">
+    <div>
+      <h2 style="font-size: 20px; font-weight: 800; color: #1e3c72; margin-bottom: 4px;">
+        國九論說文邏輯利器：孟子二千年前的「思維破局法」
+      </h2>
+      <p style="font-size: 13.5px; color: #64748b;">
+        掌握「由下而上」的歸納與「由上而下」的演繹，論述立於不敗之地！
+      </p>
+    </div>
+
+    <div class="concept-cards">
+      <div class="concept-card card-ind">
+        <h3>🔍 歸納法 (Inductive)</h3>
+        <div class="logic-arrow" style="color: var(--inductive-color);">
+          個別事例 ➔ 普遍規律（由點到面）
+        </div>
+        <p style="font-size: 13.5px; margin-bottom: 8px; color: #555;">
+          <strong>運作方式</strong>：觀察許多具體事例或歷史人物，找出共同點，歸納出通則。
+        </p>
+        <div class="example-box">
+          • 舜耕於歷山後稱帝<br>
+          • 傅說版築泥水匠後為相<br>
+          ➔ <strong>歸納</strong>：困厄歷練能成就偉大。
+        </div>
+      </div>
+
+      <div class="concept-card card-ded">
+        <h3>📐 演繹法 (Deductive)</h3>
+        <div class="logic-arrow" style="color: var(--deductive-color);">
+          普遍原理 ➔ 個別情境（三段論法）
+        </div>
+        <p style="font-size: 13.5px; margin-bottom: 8px; color: #555;">
+          <strong>運作方式</strong>：從公認普遍大前提，結合具體小前提，推導出必然結論。
+        </p>
+        <div class="example-box">
+          • <strong>大前提</strong>：逆境能激發潛能<br>
+          • <strong>小前提</strong>：我正面臨會考模考壓力<br>
+          ➔ <strong>演繹</strong>：我正在經歷能力躍升。
+        </div>
+      </div>
+    </div>
+
+    <div class="mencius-spotlight">
+      <h4 style="font-size:15px; color:#9a7d0a; margin-bottom:6px;">📜 孟子課文中的雙刀流：</h4>
+      <p style="font-size: 13px; color: #444; line-height: 1.6;">
+        • <strong>前半段【歸納】</strong>：列舉六聖賢身世 ➔ 歸納出「天將降大任於是人也，必先苦其心志」。<br>
+        • <strong>後半段【演繹】</strong>：確立「入無法家拂士，出無敵國外患者，國恆亡」大原則 ➔ 推導出「生於憂患，死於安樂」！
+      </p>
+    </div>
+
+    <div style="text-align: right;">
+      <button class="restart-btn" onclick="switchTab('quiz')">🔥 開始挑戰 8 題擂台 ➔</button>
+    </div>
+  </div>
+
+  <div id="quizView" class="quiz-container">
+    <div>
+      <div class="quiz-header">
+        <div class="progress-info" id="qProgress">題目 1 / 8</div>
+        <div class="score-badge" id="scoreBadge">得分：0 分</div>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-tag" id="qTag">文本思辨題</div>
+        <div class="question-text" id="qText">載入題目中...</div>
+        <div class="question-hint" id="qHint">請判斷是「多例找原則」還是「依大前提推論結果」！</div>
+      </div>
+
+      <div class="answers-grid" id="choicesGrid">
+        <button class="choice-btn btn-inductive" onclick="handleAnswer('inductive')">
+          <span>🔍 歸納法</span>
+          <small>多個具體事例 ➔ 歸納出普遍結論</small>
+        </button>
+        <button class="choice-btn btn-deductive" onclick="handleAnswer('deductive')">
+          <span>📐 演繹法</span>
+          <small>普遍大前提 ➔ 推導出特定具體結論</small>
+        </button>
+      </div>
+
+      <div id="explanationCard" class="explanation-card">
+        <h4 id="expTitle" style="font-size:15px; margin-bottom:4px;">解析</h4>
+        <div id="expBody">解析內容</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end;">
+      <button id="nextBtn" class="next-btn" onclick="nextQuestion()">下一題 ➔</button>
+    </div>
+  </div>
+
+  <div id="resultView" class="result-container">
+    <div style="font-size:54px; margin-bottom:10px;" id="resIcon">🏆</div>
+    <div style="font-size:30px; font-weight:900; color:var(--primary); margin-bottom:8px;" id="finalScore">80 / 80 分</div>
+    <div style="font-size:16px; color:#475569; margin-bottom:20px;" id="finalMessage">評語</div>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 重新挑戰</button>
+  </div>
+</main>
+
+<script>
+const questions = [
+  {
+    tag: "課文文本對照",
+    text: "孟子在開頭接連列舉「舜發於畎畝、傅說舉於版築、膠鬲舉於魚鹽、管仲舉於士、孫叔敖舉於海、百里奚舉於市」等六位人物，最後得出「故天將降大任於是人也，必先苦其心志」的結論。請問這段論述運用了何種推論方法？",
+    hint: "提示：從六位個別人物的具體遭遇，推導出全體成就大業者必備的通則。",
+    correct: "inductive",
+    exp: "<strong>正確答案：【歸納法】</strong><br>列舉六位歷史人物（個別事例），找出他們皆「先歷經磨難、後被起用」的共同特徵，歸納出普遍規律。"
+  },
+  {
+    tag: "孟子哲學三段論",
+    text: "【大前提】凡是人，皆有惻隱之心。<br>【小前提】小明是一個人。<br>【結論】因此，當小明看見小孩快跌入水井時，必然會心生怵惕惻隱之感。<br>請問上述論證過程屬於何者？",
+    hint: "提示：從全體人類共享的普遍原則，推導到小明個人的特定行為。",
+    correct: "deductive",
+    exp: "<strong>正確答案：【演繹法】</strong><br>標準三段論（大前提 ➔ 小前提 ➔ 結論）。從全人類普遍原則推導出特定個人的必然反應。"
+  },
+  {
+    tag: "國九備考情境",
+    text: "班長發現：小華每天訂正錯題後模擬考進步了；小美訂正錯題後數學拿 A++；阿強整理錯題筆記後排名大躍升。於是班長宣布：「只要每天踏實訂正錯題，成績就一定能進步！」",
+    hint: "提示：從班上三位同學的個別成功案例，推導出全班通用的學習鐵則。",
+    correct: "inductive",
+    exp: "<strong>正確答案：【歸納法】</strong><br>從具體同學的成功經驗中尋找共同因果，歸納出普遍結論。"
+  },
+  {
+    tag: "歷史治理警惕",
+    text: "【大前提】內部無諫臣、外部無強敵之政權，往往因沉溺逸樂而滅亡。<br>【小前提】古代吳國擊敗越國後貪圖享樂、殺害忠臣，忽視越國復仇威脅。<br>【結論】因此，吳國終究走向被越國所滅的命運。",
+    hint: "提示：從「國恆亡」的興衰定律，套用到春秋吳國的滅亡史實。",
+    correct: "deductive",
+    exp: "<strong>正確答案：【演繹法】</strong><br>立定普遍公理（大前提），將吳國歷史置入（小前提），推論出亡國結果。"
+  },
+  {
+    tag: "現代名家例證",
+    text: "「輝達黃仁勳歷經數次瀕臨破產才開創 AI 帝國；李智凱無數次骨折落馬才奪奧運銀牌；戴資穎每日枯燥揮拍萬次才登世界球后。可見，非凡成就必經極致痛苦鍛鍊！」",
+    hint: "提示：由科技、體操、羽球三位不同人物，推論至人生的普世原則。",
+    correct: "inductive",
+    exp: "<strong>正確答案：【歸納法】</strong><br>列舉三個不同領域的成功人士（個別事例），提煉出總結性論點。"
+  },
+  {
+    tag: "會考逆境抗壓",
+    text: "【大前提】所有能『動心忍性』的苦讀，終將在會考考場上曾益其所不能。<br>【小前提】身為國九考生的我，正在深夜耐住性子訂正艱澀的理化考題。<br>【結論】因此，我眼前的苦讀與堅持，必將轉化為考場上的強大實力！",
+    hint: "提示：用孟子的心智提升定律，賦予自己當下努力的必然意義。",
+    correct: "deductive",
+    exp: "<strong>正確答案：【演繹法】</strong><br>將孟子定律作為大前提，將自己納入小前提，推導出堅定信念之結論。"
+  },
+  {
+    tag: "科學探究生活",
+    text: "實驗紀錄：加熱鐵塊膨脹；加熱銅塊膨脹；加熱鋁塊亦膨脹。科學家宣佈：「所有金屬受熱時體積皆會膨脹。」",
+    hint: "提示：由鐵、銅、鋁三種金屬的個別實驗現象，推導出所有金屬的物理通則。",
+    correct: "inductive",
+    exp: "<strong>正確答案：【歸納法】</strong><br>由有限經驗事實，概括歸納出普遍物理定律。"
+  },
+  {
+    tag: "課綱與教學專業",
+    text: "【大前提】凡依據教育部 108 課綱設計的優良教案，皆必須落實真實情境與素養導向。<br>【小前提】這份《生於憂患，死於安樂》教案完全遵循 108 課綱編撰。<br>【結論】因此，這份教案必然是一份落實素養導向的優良教案！",
+    hint: "提示：觀課委員心中最嚴謹的三段論邏輯！",
+    correct: "deductive",
+    exp: "<strong>正確答案：【演繹法】</strong><br>標準大前提 ➔ 小前提 ➔ 結論演繹。"
+  }
+];
+
+let currentIdx = 0;
+let score = 0;
+let answered = false;
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  if (tab === 'concept') {
+    document.querySelector('.nav-btn:nth-child(1)').classList.add('active');
+    document.getElementById('conceptView').style.display = 'flex';
+    document.getElementById('quizView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'none';
+  } else {
+    document.querySelector('.nav-btn:nth-child(2)').classList.add('active');
+    document.getElementById('conceptView').style.display = 'none';
+    document.getElementById('quizView').style.display = 'flex';
+    document.getElementById('resultView').style.display = 'none';
+    loadQuestion(currentIdx);
+  }
+}
+
+function loadQuestion(idx) {
+  answered = false;
+  const q = questions[idx];
+  document.getElementById('qProgress').innerText = `題目 ${idx + 1} / ${questions.length}`;
+  document.getElementById('progressBar').style.width = `${((idx + 1) / questions.length) * 100}%`;
+  document.getElementById('scoreBadge').innerText = `得分：${score} 分`;
+  document.getElementById('qTag').innerText = q.tag;
+  document.getElementById('qText').innerHTML = q.text;
+  document.getElementById('qHint').innerText = q.hint;
+  document.getElementById('explanationCard').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  });
+}
+
+function handleAnswer(choice) {
+  if (answered) return;
+  answered = true;
+  const q = questions[currentIdx];
+  const isCorrect = (choice === q.correct);
+  const expCard = document.getElementById('explanationCard');
+  document.querySelectorAll('.choice-btn').forEach(btn => btn.disabled = true);
+  if (isCorrect) {
+    score += 10;
+    document.getElementById('scoreBadge').innerText = `得分：${score} 分`;
+    expCard.className = 'explanation-card exp-correct';
+    document.getElementById('expTitle').innerHTML = '🎉 答對了！邏輯清晰！';
+  } else {
+    expCard.className = 'explanation-card exp-wrong';
+    document.getElementById('expTitle').innerHTML = '❌ 哎呀差一點！邏輯解析：';
+  }
+  document.getElementById('expBody').innerHTML = q.exp;
+  expCard.style.display = 'block';
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.innerText = (currentIdx === questions.length - 1) ? '查看總成績 🏆' : '下一題 ➔';
+}
+
+function nextQuestion() {
+  if (currentIdx < questions.length - 1) {
+    currentIdx++;
+    loadQuestion(currentIdx);
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quizView').style.display = 'none';
+  document.getElementById('resultView').style.display = 'block';
+  document.getElementById('finalScore').innerText = `${score} / 80 分`;
+  const msg = document.getElementById('finalMessage');
+  const icon = document.getElementById('resIcon');
+  if (score === 80) {
+    icon.innerText = '👑';
+    msg.innerHTML = '<strong>【滿分！孟子邏輯大師認證】</strong><br>不管是個別事例的歸納，還是大前提的三段論演繹，完全難不倒你！';
+  } else if (score >= 60) {
+    icon.innerText = '🌟';
+    msg.innerHTML = '<strong>【高分通過！思辨先鋒】</strong><br>表現非常優異！能準確區分多例歸納與原則演繹。';
+  } else {
+    icon.innerText = '💪';
+    msg.innerHTML = '<strong>【持續淬鍊！】</strong><br>記住：多例找通則是歸納；拿普遍原則推論結果是演繹。';
+  }
+}
+
+function restartQuiz() {
+  currentIdx = 0;
+  score = 0;
+  switchTab('quiz');
+}
+</script>
+</body>
+</html>

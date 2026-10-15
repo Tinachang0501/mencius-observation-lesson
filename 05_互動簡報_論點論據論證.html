@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>論說文三要素辨析：論點 vs. 論據 vs. 論證——互動思辨擂台</title>
+<style>
+  :root {
+    --primary: #1e3c72;
+    --primary-light: #2a5298;
+    --claim-color: #8e44ad;
+    --evidence-color: #2980b9;
+    --reasoning-color: #d35400;
+    --dark: #2c3e50;
+    --card-bg: #ffffff;
+    --bg: #f0f4f8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "微軟正黑體", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+  }
+  header {
+    width: 100%;
+    max-width: 960px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    color: white;
+    padding: 18px 24px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 20px rgba(30, 60, 114, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  header h1 { font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+  .top-links { display: flex; align-items: center; gap: 10px; }
+  .back-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.35); }
+  .nav-tabs {
+    display: flex;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 4px;
+    border-radius: 30px;
+  }
+  .nav-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .nav-btn.active, .nav-btn:hover { background: white; color: var(--primary); }
+  .stage {
+    width: 100%;
+    max-width: 960px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 26px 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .concept-cards-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 15px 0;
+  }
+  .card-3 {
+    border-radius: 12px;
+    padding: 16px;
+    border: 2px solid;
+    background: #fafafa;
+  }
+  .c-claim { border-color: var(--claim-color); background: #fbf5fc; }
+  .c-evidence { border-color: var(--evidence-color); background: #f0f7fb; }
+  .c-reasoning { border-color: var(--reasoning-color); background: #fcf6f0; }
+  .card-3 h3 { font-size: 16px; margin-bottom: 8px; font-weight: 800; }
+  .c-claim h3 { color: var(--claim-color); }
+  .c-evidence h3 { color: var(--evidence-color); }
+  .c-reasoning h3 { color: var(--reasoning-color); }
+  .card-3 p { font-size: 13px; color: #555; line-height: 1.5; }
+  .quiz-container { display: none; flex-direction: column; justify-content: space-between; height: 100%; }
+  .progress-info { font-size: 14px; font-weight: 800; color: var(--primary); }
+  .score-badge { background: #f39c12; color: white; padding: 4px 12px; border-radius: 20px; font-weight: bold; font-size: 13.5px; }
+  .progress-bar-bg { width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin: 12px 0 20px 0; }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, #9b59b6, #3498db); width: 20%; transition: width 0.3s; }
+  .question-box { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; padding: 20px; margin-bottom: 18px; }
+  .question-tag { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11.5px; font-weight: bold; background: #e2e8f0; color: #475569; margin-bottom: 8px; }
+  .question-text { font-size: 16.5px; font-weight: 700; color: #1e293b; line-height: 1.6; margin-bottom: 8px; }
+  .answers-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+  .choice-btn-3 {
+    border: 2.5px solid;
+    padding: 16px 12px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: white;
+  }
+  .btn-c-claim { border-color: var(--claim-color); color: var(--claim-color); }
+  .btn-c-claim:hover { background: var(--claim-color); color: white; }
+  .btn-c-evidence { border-color: var(--evidence-color); color: var(--evidence-color); }
+  .btn-c-evidence:hover { background: var(--evidence-color); color: white; }
+  .btn-c-reasoning { border-color: var(--reasoning-color); color: var(--reasoning-color); }
+  .btn-c-reasoning:hover { background: var(--reasoning-color); color: white; }
+  .choice-btn-3 small { font-size: 11.5px; font-weight: 600; opacity: 0.85; }
+  .explanation-card { display: none; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px; font-size: 14px; line-height: 1.55; }
+  .exp-correct { background: #d4edda; border: 1.5px solid #28a745; color: #155724; }
+  .exp-wrong { background: #f8d7da; border: 1.5px solid #dc3545; color: #721c24; }
+  .next-btn { background: var(--primary); color: white; border: none; padding: 10px 26px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; display: none; }
+  .result-container { display: none; text-align: center; padding: 25px 20px; }
+  .restart-btn { background: var(--primary); color: white; border: none; padding: 10px 28px; border-radius: 8px; font-size: 15px; font-weight: bold; cursor: pointer; }
+  @media (max-width: 768px) {
+    .concept-cards-3, .answers-grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏛️ 論說文三要素辨析擂台</h1>
+  <div class="top-links">
+    <div class="nav-tabs">
+      <button class="nav-btn active" onclick="switchTab('concept')">📖 概念圖解</button>
+      <button class="nav-btn" onclick="switchTab('quiz')">⚡ 挑戰題目 (5題)</button>
+    </div>
+    <a href="index.html" class="back-btn">⬅ 回首頁</a>
+  </div>
+</header>
+
+<main class="stage">
+  <div id="conceptView">
+    <h2 style="font-size: 19px; font-weight: 800; color: #1e3c72; margin-bottom: 4px;">
+      國中會考論說文核心：旗幟、磚塊與水泥
+    </h2>
+    <p style="font-size: 13.5px; color: #64748b;">
+      寫論說文要言之有物、論之成理，必須精準分辨「論點」、「論據」與「論證」！
+    </p>
+
+    <div class="concept-cards-3">
+      <div class="card-3 c-claim">
+        <h3>🚩 1. 論點（主張）</h3>
+        <p>
+          <strong>「作者認為是什麼？」</strong><br>
+          文章的靈魂與旗幟。表達作者對問題的根本看法、主張與評價（中心論點或分論點）。<br>
+          <em>例：生於憂患，死於安樂。</em>
+        </p>
+      </div>
+
+      <div class="card-3 c-evidence">
+        <h3>🧱 2. 論據（材料）</h3>
+        <p>
+          <strong>「用什麼來證明？」</strong><br>
+          立論的支柱與磚塊。包含<strong>事實論據</strong>（歷史典故、實際事例、數據）與<strong>理論論據</strong>（名人名言、科學公理）。<br>
+          <em>例：舜耕歷山、黃仁勳創業磨難。</em>
+        </p>
+      </div>
+
+      <div class="card-3 c-reasoning">
+        <h3>🔗 3. 論證（過程）</h3>
+        <p>
+          <strong>「兩者如何連起來？」</strong><br>
+          連結磚塊與旗幟的水泥。闡明「論據」與「論點」之間的因果關聯、比較對照或推演邏輯。<br>
+          <em>例：動心忍性激發潛能之因果分析。</em>
+        </p>
+      </div>
+    </div>
+
+    <div style="background:#fdfaf4; border:2px dashed #b7950b; border-radius:12px; padding:14px 18px; margin-bottom:15px;">
+      <h4 style="font-size:14.5px; color:#9a7d0a; margin-bottom:4px;">💡 三秒快篩法：</h4>
+      <p style="font-size: 13px; color: #444; line-height: 1.6;">
+        • 是不是作者的觀點態度？ ➔ <strong>論點</strong><br>
+        • 是不是拿出來的人事數據？ ➔ <strong>論據</strong><br>
+        • 是不是在解釋「為什麼」的邏輯過程？ ➔ <strong>論證</strong>
+      </p>
+    </div>
+
+    <div style="text-align: right;">
+      <button class="restart-btn" onclick="switchTab('quiz')">🔥 開始挑戰 5 題觀念辨析 ➔</button>
+    </div>
+  </div>
+
+  <div id="quizView" class="quiz-container">
+    <div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="progress-info" id="qProgress">題目 1 / 5</div>
+        <div class="score-badge" id="scoreBadge">得分：0 分</div>
+      </div>
+      <div class="progress-bar-bg">
+        <div id="progressBar" class="progress-bar-fill"></div>
+      </div>
+
+      <div class="question-box">
+        <div class="question-tag" id="qTag">題目類別</div>
+        <div class="question-text" id="qText">題目文字</div>
+      </div>
+
+      <div class="answers-grid-3">
+        <button class="choice-btn-3 btn-c-claim" onclick="handleAnswer('claim')">
+          <span>🚩 論點</span>
+          <small>作者的核心主張與看法</small>
+        </button>
+        <button class="choice-btn-3 btn-c-evidence" onclick="handleAnswer('evidence')">
+          <span>🧱 論據</span>
+          <small>支撐主張的事實或名言材料</small>
+        </button>
+        <button class="choice-btn-3 btn-c-reasoning" onclick="handleAnswer('reasoning')">
+          <span>🔗 論證</span>
+          <small>說明因果推演的邏輯過程</small>
+        </button>
+      </div>
+
+      <div id="explanationCard" class="explanation-card">
+        <h4 id="expTitle" style="font-size:15px; margin-bottom:4px;">解析</h4>
+        <div id="expBody">解析內容</div>
+      </div>
+    </div>
+
+    <div style="display:flex; justify-content:flex-end;">
+      <button id="nextBtn" class="next-btn" onclick="nextQuestion()">下一題 ➔</button>
+    </div>
+  </div>
+
+  <div id="resultView" class="result-container">
+    <div style="font-size:54px; margin-bottom:10px;" id="resIcon">🏆</div>
+    <div style="font-size:30px; font-weight:900; color:var(--primary); margin-bottom:8px;" id="finalScore">100 / 100 分</div>
+    <div style="font-size:16px; color:#475569; margin-bottom:20px;" id="finalMessage">評語</div>
+    <button class="restart-btn" onclick="restartQuiz()">🔄 重新挑戰</button>
+  </div>
+</main>
+
+<script>
+const questions5 = [
+  {
+    tag: "孟子課文史實辨析",
+    text: "《孟子·生於憂患，死於安樂》開篇寫道：『舜發於畎畝之中，傅說舉於版築，膠鬲舉於魚鹽，管仲舉於士，孫叔敖舉於海，百里奚舉於市。』請問這段文字在孟子的論述架構中屬於哪一個要素？",
+    correct: "evidence",
+    exp: "<strong>正確答案：【論據】（事實論據）</strong><br>這句話列舉了六位古代聖賢在發跡前的真實歷史遭遇，作為支撐後文『天降大任於斯人』的證明材料（磚塊）。"
+  },
+  {
+    tag: "文章主旨核心判斷",
+    text: "課文結尾寫道：『然後知生於憂患，而死於安樂也。』請問這句話在整篇文章中屬於哪一個要素？",
+    correct: "claim",
+    exp: "<strong>正確答案：【論點】（中心論點／結論）</strong><br>這是作者經過全篇論述後，最想立起的核心旗幟——憂患使人生存發展，安逸使人走向衰亡。"
+  },
+  {
+    tag: "因果機制推演辨析",
+    text: "課文寫道：『故天將降大任於是人也，必先苦其心志，勞其筋骨……所以動心忍性，曾益其所不能。』孟子在此分析磨練如何刺激心靈反省、激發原本做不到的能力，這段說明因果機制的文字屬於何者？",
+    correct: "reasoning",
+    exp: "<strong>正確答案：【論證】（論證過程／因果推論）</strong><br>孟子解釋了『為什麼受苦能成大器』的思維邏輯（水泥），將六賢士的磨難（論據）與成就大業（論點）緊密連結。"
+  },
+  {
+    tag: "現代名人名言引用",
+    text: "國九同學在論說文中寫道：『輝達執行長黃仁勳曾說：我祝你們所有人都能經歷足夠的痛苦與磨難，因為偉大的品格是由磨難淬鍊出來的。』請問引用黃仁勳的這段話屬於何者？",
+    correct: "evidence",
+    exp: "<strong>正確答案：【論據】（理論論據／名人名言）</strong><br>借用科技巨頭的公開發言，作為支持『逆境淬鍊實力』的權威證據材料。"
+  },
+  {
+    tag: "段落三要素綜合實戰",
+    text: "請判斷以下劃線句子：『因為主動訂正錯題能迫使大腦啟動後設認知，修補知識盲點；相反地，逃避難題只會讓錯誤在會考中重複上演。』這句話屬於論說文中的哪一要素？",
+    correct: "reasoning",
+    exp: "<strong>正確答案：【論證】（因果與正反對比論證）</strong><br>這句話既不是提出新主張（論點），也不是提出統計數字或特定人事（論據），而是在『解釋原因與後果』，屬於論證過程！"
+  }
+];
+
+let curIdx = 0;
+let score = 0;
+let isAnswered = false;
+
+function switchTab(tab) {
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  if (tab === 'concept') {
+    document.querySelector('.nav-btn:nth-child(1)').classList.add('active');
+    document.getElementById('conceptView').style.display = 'block';
+    document.getElementById('quizView').style.display = 'none';
+    document.getElementById('resultView').style.display = 'none';
+  } else {
+    document.querySelector('.nav-btn:nth-child(2)').classList.add('active');
+    document.getElementById('conceptView').style.display = 'none';
+    document.getElementById('quizView').style.display = 'flex';
+    document.getElementById('resultView').style.display = 'none';
+    loadQ(curIdx);
+  }
+}
+
+function loadQ(idx) {
+  isAnswered = false;
+  const q = questions5[idx];
+  document.getElementById('qProgress').innerText = `題目 ${idx + 1} / ${questions5.length}`;
+  document.getElementById('progressBar').style.width = `${((idx + 1) / questions5.length) * 100}%`;
+  document.getElementById('scoreBadge').innerText = `得分：${score} 分`;
+  document.getElementById('qTag').innerText = q.tag;
+  document.getElementById('qText').innerHTML = q.text;
+  document.getElementById('explanationCard').style.display = 'none';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.querySelectorAll('.choice-btn-3').forEach(btn => {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+  });
+}
+
+function handleAnswer(choice) {
+  if (isAnswered) return;
+  isAnswered = true;
+  const q = questions5[curIdx];
+  const isCorrect = (choice === q.correct);
+  const expCard = document.getElementById('explanationCard');
+  document.querySelectorAll('.choice-btn-3').forEach(btn => btn.disabled = true);
+  if (isCorrect) {
+    score += 20;
+    document.getElementById('scoreBadge').innerText = `得分：${score} 分`;
+    expCard.className = 'explanation-card exp-correct';
+    document.getElementById('expTitle').innerHTML = '🎉 答對了！觀念非常清晰！';
+  } else {
+    expCard.className = 'explanation-card exp-wrong';
+    document.getElementById('expTitle').innerHTML = '❌ 哎呀差一點！核心關鍵解析：';
+  }
+  document.getElementById('expBody').innerHTML = q.exp;
+  expCard.style.display = 'block';
+  const nextBtn = document.getElementById('nextBtn');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.innerText = (curIdx === questions5.length - 1) ? '查看總成績 🏆' : '下一題 ➔';
+}
+
+function nextQuestion() {
+  if (curIdx < questions5.length - 1) {
+    curIdx++;
+    loadQ(curIdx);
+  } else {
+    showRes();
+  }
+}
+
+function showRes() {
+  document.getElementById('quizView').style.display = 'none';
+  document.getElementById('resultView').style.display = 'block';
+  document.getElementById('finalScore').innerText = `${score} / 100 分`;
+  const msg = document.getElementById('finalMessage');
+  const icon = document.getElementById('resIcon');
+  if (score === 100) {
+    icon.innerText = '👑';
+    msg.innerHTML = '<strong>【滿分！論說文三要素辨析大師】</strong><br>你已經完全掌握了論點（旗幟）、論據（磚塊）與論證（水泥）的差別！寫作論說文絕對邏輯嚴密！';
+  } else if (score >= 80) {
+    icon.innerText = '🌟';
+    msg.innerHTML = '<strong>【優秀通過！】</strong><br>觀念非常扎實！記得寫作時：主張一定要有論據支撐，並透過論證交代因果機制！';
+  } else {
+    icon.innerText = '💪';
+    msg.innerHTML = '<strong>【持續加油！】</strong><br>三秒快篩口訣：作者想說服你的是論點，用來證明的是論據，解釋為什麼的是論證！';
+  }
+}
+
+function restartQuiz() {
+  curIdx = 0;
+  score = 0;
+  switchTab('quiz');
+}
+</script>
+</body>
+</html>

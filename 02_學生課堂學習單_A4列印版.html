@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>《生於憂患，死於安樂》公開觀課學生學習單（A4雙面列印版）</title>
+<style>
+  @page { size: A4 portrait; margin: 12mm 15mm 12mm 15mm; }
+  @media print {
+    body { background: white !important; padding: 0 !important; }
+    .no-print { display: none !important; }
+    .page-break { page-break-after: always; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "標楷體", "BiauKai", "微軟正黑體", "Microsoft JhengHei", sans-serif;
+    background: #f4f6f8;
+    color: #1a1a1a;
+    padding: 16px;
+    line-height: 1.45;
+  }
+  .print-bar {
+    max-width: 210mm;
+    margin: 0 auto 12px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .back-btn {
+    color: #1e3c72;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .print-btn {
+    background: #1e3c72;
+    color: white;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .print-btn:hover { background: #2a5298; }
+  .sheet {
+    width: 210mm;
+    min-height: 297mm;
+    background: white;
+    margin: 0 auto 20px auto;
+    padding: 13mm 15mm;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    position: relative;
+    border: 1px solid #dcdcdc;
+  }
+  .header {
+    border-bottom: 2px solid #2c3e50;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .header-tag {
+    font-size: 10pt;
+    font-weight: bold;
+    color: #2980b9;
+    letter-spacing: 1px;
+  }
+  .header h1 {
+    font-size: 16.5pt;
+    color: #1a252f;
+    font-weight: 900;
+    margin: 3px 0 5px 0;
+    text-align: center;
+    letter-spacing: 1.5px;
+  }
+  .info-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10pt;
+    font-weight: bold;
+    border-top: 1px dashed #bbb;
+    padding-top: 4px;
+  }
+  .line-input {
+    border-bottom: 1px solid #333;
+    display: inline-block;
+    min-width: 70px;
+    text-align: center;
+  }
+  .section { margin-bottom: 10px; }
+  .sec-title {
+    background: #eef3f8;
+    border-left: 5px solid #1e3c72;
+    padding: 3px 8px;
+    font-size: 10.5pt;
+    font-weight: bold;
+    color: #1e3c72;
+    margin-bottom: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.2pt;
+    margin-bottom: 6px;
+  }
+  th, td {
+    border: 1px solid #777;
+    padding: 4px 6px;
+    vertical-align: middle;
+  }
+  th { background: #f0f4f8; font-weight: bold; text-align: center; }
+  .formula-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fbfbfb;
+    border: 1px solid #c8d6e5;
+    border-radius: 6px;
+    padding: 6px 8px;
+    margin-bottom: 6px;
+    font-size: 9pt;
+  }
+  .step-node {
+    flex: 1;
+    background: white;
+    border: 1.5px solid #1e3c72;
+    border-radius: 5px;
+    padding: 4px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .step-node small { display: block; font-size: 7.8pt; color: #555; font-weight: normal; }
+  .arrow-node { font-size: 12pt; color: #e67e22; padding: 0 4px; font-weight: bold; }
+  .writing-guide {
+    font-size: 8.8pt;
+    background: #fffdf2;
+    border: 1px solid #e2d9b6;
+    padding: 5px 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  .writing-guide span { font-weight: bold; color: #8c5b00; }
+  .writing-area {
+    width: 100%;
+    border: 1.5px solid #2c3e50;
+    border-radius: 5px;
+    padding: 8px;
+    min-height: 155px;
+    background: repeating-linear-gradient(white, white 23px, #e0e7ee 24px);
+    line-height: 24px;
+    font-size: 10pt;
+    color: #555;
+  }
+  .golden-quote {
+    background: #fcf3cf;
+    border-left: 4px solid #f39c12;
+    padding: 5px 8px;
+    font-size: 9.2pt;
+    font-weight: bold;
+    color: #7d4f00;
+    margin-top: 6px;
+    border-radius: 0 4px 4px 0;
+  }
+  .footer-note {
+    position: absolute;
+    bottom: 8mm;
+    left: 15mm;
+    right: 15mm;
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    color: #888;
+    border-top: 1px solid #ddd;
+    padding-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <a href="index.html" class="back-btn">⬅ 回首頁</a>
+  <button class="print-btn" onclick="window.print()">🖨️ 點擊列印學生學習單 (A4 雙面)</button>
+</div>
+
+<!-- 正面 -->
+<div class="sheet">
+  <div class="header">
+    <div class="header-tag">國中九年級國語文公開觀課素養導向學習單</div>
+    <h1>《生於憂患，死於安樂》——走過逆境，曾益其所不能</h1>
+    <div class="info-bar">
+      <div>九年 <span class="line-input" style="min-width:35px;"></span> 班</div>
+      <div>座號：<span class="line-input" style="min-width:35px;"></span></div>
+      <div>姓名：<span class="line-input" style="min-width:85px;"></span></div>
+      <div>日期：115 年 <span class="line-input" style="min-width:25px;"></span> 月 <span class="line-input" style="min-width:25px;"></span> 日</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">📍 一、生活對照鏡：舒適圈 vs. 壓力鍋</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">生活狀態</th>
+          <th style="width: 40%;">情境描述</th>
+          <th style="width: 40%;">孟子哲理對照與我的省思</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align:center; font-weight:bold; color:#c0392b;">狀態 A<br>【安逸的夜晚】</td>
+          <td>躺在床上漫無目的刷短影音 2 小時，看似放鬆，實則心靈虛浮、焦慮倍增。</td>
+          <td>這是孟子說的「<strong>死於安樂</strong>」。<br>思考：當下舒服，但為什麼會讓人意志銷蝕？</td>
+        </tr>
+        <tr>
+          <td style="text-align:center; font-weight:bold; color:#27ae60;">狀態 B<br>【逆境的深夜】</td>
+          <td>書桌前訂正模擬考錯題，雖然燒腦疲憊，但弄懂痛點後內心踏實有底氣。</td>
+          <td>這是孟子說的「<strong>生於憂患</strong>」。<br>思考：哪一次痛苦的鍛鍊，曾讓你實力倍增？</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="font-size:9.2pt; margin-top:4px;">
+      ✏️ <strong>我的自我叩問</strong>：面對即將到來的教育會考，我目前最感到「苦其心志」的一件事是：
+      <span class="line-input" style="min-width: 320px; text-align:left;">&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">📍 二、文本透視·孟子的「心智鍛造公式」</div>
+    <div class="formula-box">
+      <div class="step-node">
+        第一步：受挫磨練
+        <small>苦其心志、勞其筋骨、空乏其身、行拂亂其所為</small>
+      </div>
+      <div class="arrow-node">➔</div>
+      <div class="step-node" style="border-color:#e67e22; background:#fffaf0;">
+        第二步：關鍵轉折
+        <small style="color:#d35400; font-weight:bold;">動心忍性（心靈受警惕，鍛鍊堅韌耐挫力）</small>
+      </div>
+      <div class="arrow-node">➔</div>
+      <div class="step-node" style="border-color:#27ae60; background:#f4fbf7;">
+        第三步：能級躍升
+        <small style="color:#196f3d; font-weight:bold;">曾益其所不能（突破極限，長出新本事）</small>
+      </div>
+    </div>
+    <div style="font-size:9.2pt; line-height: 1.5;">
+      💬 <strong>深層思辨</strong>：如果一個人在遭遇生活挫折時，只有「苦其心志」，卻沒有<strong>「動心忍性」</strong>，他最容易產生什麼結果？（請勾選：□ 被擊垮怨天尤人　□ 選擇擺爛逃避）<br>
+      答：<span class="line-input" style="min-width: 530px; text-align:left;">&nbsp;</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">📍 三、跨越時空·古今智者的生命映照</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 25%;">人物範疇</th>
+          <th style="width: 35%;">面臨之「憂患與苦難」</th>
+          <th style="width: 40%;">如何「動心忍性，曾益其所不能」</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:bold;">古代聖賢（舜/百里奚）</td>
+          <td>舜耕歷山、百里奚淪為五張羊皮之奴</td>
+          <td>在極致卑微困頓中磨礪德行智慧，終成一代明君與賢相。</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold;">現代典範（黃仁勳）</td>
+          <td>創業屢瀕臨破產、技術不被主流看好</td>
+          <td>直言：「卓越來自苦難磨礪，我祝你們經歷足夠的磨難。」</td>
+        </tr>
+        <tr>
+          <td style="font-weight:bold; color:#1e3c72;">我自己（國九考生）</td>
+          <td>模擬考挫折、排名的焦慮、厚重講義</td>
+          <td><strong>我的行動</strong>：<span class="line-input" style="min-width: 200px;"></span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="golden-quote">
+    🔥 <strong>國九考生激勵金句</strong>：「模考卷上的每個紅筆字，都不是宣判，而是孟子的『動心忍性』——每一道錯題，都在悄悄曾益你所不能！」
+  </div>
+
+  <div class="footer-note">
+    <span>學習單（第 1 頁，共 2 頁）</span>
+    <span>九年級國語文公開觀課·教學演示專用</span>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- 背面 -->
+<div class="sheet">
+  <div class="header">
+    <div class="header-tag">國九論說文微寫作與評量專區</div>
+    <h1>【筆鋒磨礪】課堂實作：有理有據的短篇論說文</h1>
+    <div class="info-bar">
+      <div>姓名：<span class="line-input" style="min-width:80px;"></span></div>
+      <div>座號：<span class="line-input" style="min-width:35px;"></span></div>
+      <div>題目：<strong>《逆境，是強者的入場券》</strong></div>
+      <div>字數：150～200字</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="sec-title">📍 四、寫作鷹架引導（ORES 模組）</div>
+    <div class="writing-guide">
+      • <span>【O - 主張 (Opinion)】</span>：提出核心觀點（例如：安逸使人墮落，唯有逆境方能成就非凡實力）。<br>
+      • <span>【R - 理由 (Reason)】</span>：闡明因果關係（為什麼？因為人的心智耐受力需經過高壓淬鍊才能覺醒）。<br>
+      • <span>【E - 證據 (Evidence)】</span>：古今例證對照（孟子六聖賢之逆境 ＋ 現代黃仁勳/李智凱 ＋ 自身備考體悟）。<br>
+      • <span>【S - 總結 (Synthesis)】</span>：首尾呼應並對即將面臨會考的自己寫下一句振奮期許。
+    </div>
+
+    <div style="font-weight:bold; margin-bottom:4px; font-size:9.5pt;">✍️ 我的論說文章產出：</div>
+    <div class="writing-area">
+      【題目：逆境，是強者的入場券】<br><br><br><br><br><br><br><br>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:10px;">
+    <div class="sec-title">📍 五、多元評量規準（同儕互評與自我檢核表）</div>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 20%;">評量指標</th>
+          <th style="width: 22%;">優等（4星）</th>
+          <th style="width: 22%;">良好（3星）</th>
+          <th style="width: 20%;">基礎（2星）</th>
+          <th style="width: 16%;">互評給分</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. 論點與古今思辨</strong></td>
+          <td>主張鮮明深刻，精準融入孟子文意與現代生活省思。</td>
+          <td>論點明確，能結合古今生活事例進行討論。</td>
+          <td>僅平鋪直敘，古今生活連結較為生硬。</td>
+          <td style="text-align:center;">□4 □3<br>□2 □1</td>
+        </tr>
+        <tr>
+          <td><strong>2. 論證邏輯 (ORES)</strong></td>
+          <td>嚴格遵循 ORES 架構，理由充分，舉證古今呼應。</td>
+          <td>具備論說架構，有提出例證與總結。</td>
+          <td>結構不夠嚴謹，論據較薄弱或跳躍。</td>
+          <td style="text-align:center;">□4 □3<br>□2 □1</td>
+        </tr>
+        <tr>
+          <td><strong>3. 語文表達與感染力</strong></td>
+          <td>用詞精準有力，文氣磅礴，具備打動人心的說服力。</td>
+          <td>語句通順，標點正確，無明顯語病。</td>
+          <td>文字平淡，有少許錯別字或標點疏漏。</td>
+          <td style="text-align:center;">□4 □3<br>□2 □1</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:6px; font-size:9pt; background:#f9f9f9; padding:6px 10px; border:1px solid #ddd; border-radius:4px;">
+      🌟 <strong>互評同學簽名</strong>：<span class="line-input" style="min-width:70px;"></span> 
+      給作者的一句具體讚美或建議：<span class="line-input" style="min-width:300px; text-align:left;"></span>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <span>學習單（第 2 頁，共 2 頁）</span>
+    <span>評量完成後請夾入國文課本，作為考前論說寫作複習寶典</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>名言佳句文意配對：生於憂患 vs. 死於安樂（互動配對箱）</title>
+<style>
+  :root {
+    --primary: #1e3c72;
+    --primary-light: #2a5298;
+    --adversity-color: #d35400;
+    --adversity-bg: #fdf2e9;
+    --adversity-border: #e67e22;
+    --complacency-color: #2980b9;
+    --complacency-bg: #ebf5fb;
+    --complacency-border: #3498db;
+    --dark: #2c3e50;
+    --bg: #f4f6f9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "微軟正黑體", "Microsoft JhengHei", sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    width: 100%;
+    max-width: 1080px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+    padding: 24px 30px;
+    margin-bottom: 20px;
+  }
+  header {
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 14px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .title-group h1 {
+    font-size: 21px;
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .title-group p { font-size: 13.5px; color: #64748b; }
+  .status-bar { display: flex; align-items: center; gap: 10px; }
+  .back-btn {
+    background: #e2e8f0;
+    color: #334155;
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .back-btn:hover { background: #cbd5e1; }
+  .score-chip {
+    background: #f1f5f9;
+    border: 1.5px solid #cbd5e1;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13.5px;
+    font-weight: bold;
+    color: #334155;
+  }
+  .score-chip span { color: #e67e22; font-size: 15px; }
+  .instruction-bar {
+    background: #fefce8;
+    border: 1px dashed #eab308;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-size: 13px;
+    color: #854d0e;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .zones-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 22px;
+  }
+  .zone {
+    border: 3px dashed;
+    border-radius: 14px;
+    padding: 16px 18px;
+    min-height: 270px;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .zone-adversity { background: var(--adversity-bg); border-color: var(--adversity-border); }
+  .zone-complacency { background: var(--complacency-bg); border-color: var(--complacency-border); }
+  .zone-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1.5px solid rgba(0,0,0,0.08);
+  }
+  .zone-header h2 { font-size: 17px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+  .zone-adversity h2 { color: var(--adversity-color); }
+  .zone-complacency h2 { color: var(--complacency-color); }
+  .badge-count {
+    background: white;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .zone-cards { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .pool-section {
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  .pool-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #475569;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .cards-pool {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 10px;
+    min-height: 120px;
+  }
+  .quote-card {
+    background: white;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    padding: 11px 13px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .quote-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.09);
+    border-color: #94a3b8;
+  }
+  .quote-text { font-size: 14.5px; font-weight: 800; color: #1e293b; margin-bottom: 3px; line-height: 1.4; }
+  .quote-author { font-size: 11.5px; color: #64748b; margin-bottom: 5px; }
+  .quote-desc {
+    font-size: 12px;
+    color: #475569;
+    background: #f8fafc;
+    padding: 4px 8px;
+    border-radius: 6px;
+    line-height: 1.4;
+  }
+  .action-buttons {
+    display: flex;
+    gap: 6px;
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid #f1f5f9;
+  }
+  .btn-move {
+    flex: 1;
+    border: none;
+    padding: 5px 8px;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-to-adv { background: #ffe8d6; color: #b7410e; }
+  .btn-to-adv:hover { background: #e67e22; color: white; }
+  .btn-to-cmp { background: #dbeafe; color: #1e40af; }
+  .btn-to-cmp:hover { background: #3b82f6; color: white; }
+  .btn-return { background: #f1f5f9; color: #64748b; }
+  .btn-return:hover { background: #cbd5e1; color: #1e293b; }
+  .quote-card.correct { border: 2px solid #22c55e !important; background: #f0fdf4 !important; }
+  .quote-card.wrong { border: 2px solid #ef4444 !important; background: #fef2f2 !important; }
+  .footer-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14.5px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--primary-light); }
+  .btn-secondary {
+    background: #e2e8f0;
+    color: #334155;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-box {
+    background: white;
+    border-radius: 16px;
+    padding: 26px 30px;
+    max-width: 480px;
+    width: 90%;
+    text-align: center;
+  }
+  @media (max-width: 768px) {
+    .zones-grid { grid-template-columns: 1fr; }
+    .cards-pool { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="title-group">
+      <h1>🎯 名言佳句文意配對：生於憂患 vs. 死於安樂</h1>
+      <p>國中九年級國語文｜深入辨析「憂勞興國 vs 逸豫亡身」與孟子「疢疾、多難」之核心意旨！</p>
+    </div>
+    <div class="status-bar">
+      <a href="index.html" class="back-btn">⬅ 回首頁</a>
+      <div class="score-chip">已配對：<span id="pairedCount">0</span> / 11 題</div>
+      <div class="score-chip">得分：<span id="scoreText">0</span> 分</div>
+    </div>
+  </header>
+
+  <div class="instruction-bar">
+    <div>
+      💡 <strong>操作提醒</strong>：點選字卡下方按鈕快速歸類至左側<strong>「🔥 接近生於憂患」</strong>或右側<strong>「🧊 接近死於安樂」</strong>。全部分類後點擊「送出核對」！
+    </div>
+    <a href="03_名言佳句文意配對_紙本學習單_A4.html" target="_blank" style="color:#b7410e; font-weight:bold; font-size:12.5px;">🖨️ 列印 A4 紙本學習單</a>
+  </div>
+
+  <div class="zones-grid">
+    <div class="zone zone-adversity" id="zoneAdversity">
+      <div class="zone-header">
+        <h2>🔥 接近【生於憂患】</h2>
+        <span class="badge-count" id="countAdv">0 則</span>
+      </div>
+      <div style="font-size:12px; color:#b7410e; margin-bottom:8px;">
+        <em>核心：逆境淬鍊、動心忍性、憂勞興國、疢疾啟聖、自強不息</em>
+      </div>
+      <div class="zone-cards" id="cardsAdv"></div>
+    </div>
+
+    <div class="zone zone-complacency" id="zoneComplacency">
+      <div class="zone-header">
+        <h2>🧊 接近【死於安樂】</h2>
+        <span class="badge-count" id="countCmp">0 則</span>
+      </div>
+      <div style="font-size:12px; color:#1e40af; margin-bottom:8px;">
+        <em>核心：沉溺安逸、喪失戒備、逸豫亡身、溫水煮青蛙、奢靡之始</em>
+      </div>
+      <div class="zone-cards" id="cardsCmp"></div>
+    </div>
+  </div>
+
+  <div class="pool-section">
+    <div class="pool-title">
+      <span>📦 待分類名言卡庫（共 11 則精選名句）</span>
+      <span style="font-weight:normal; font-size:12px; color:#64748b;">點擊下方按鈕即可移動卡片</span>
+    </div>
+    <div class="cards-pool" id="cardsPool"></div>
+  </div>
+
+  <div class="footer-toolbar">
+    <button class="btn-secondary" onclick="resetAll()">🔄 重置全部題目</button>
+    <button class="btn-primary" onclick="submitCheck()">✅ 送出核對答案</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="resultModal">
+  <div class="modal-box">
+    <div style="font-size:48px; margin-bottom:8px;" id="modalIcon">🎉</div>
+    <h2 style="font-size:20px; color:#1e3c72; margin-bottom:8px;" id="modalTitle">核對結果</h2>
+    <p style="font-size:15px; color:#475569; margin-bottom:18px;" id="modalMsg">文字訊息</p>
+    <button class="btn-primary" onclick="closeModal()">確認並查看解析</button>
+  </div>
+</div>
+
+<script>
+const quotesData = [
+  { id: 1, text: "「憂勞可以興國」", author: "歐陽脩《新五代史·伶官傳序》前半句", desc: "憂患辛勞能振興國家基業。", category: "adversity" },
+  { id: 2, text: "「逸豫可以亡身」", author: "歐陽脩《新五代史·伶官傳序》後半句", desc: "貪圖放縱安逸會讓自身招致滅亡。", category: "complacency" },
+  { id: 3, text: "「人之有德慧術智者，恆存乎疢疾。」", author: "《孟子·盡心上》（疢 ㄔㄣˋ：疾病災患）", desc: "人之所以具備德行智慧，往往存於常處苦難災疾之中。", category: "adversity" },
+  { id: 4, text: "「殷憂啟聖，多難興邦。」", author: "唐·陸贄 /《三國志》裴注", desc: "深重的憂患能開拓聖王心志，多災多難能使國家奮發興盛。", category: "adversity" },
+  { id: 5, text: "「宴安酖毒，不可懷也。」", author: "《左傳·閔公元年》", desc: "貪圖安逸享樂如同飲用毒酒，絕不可心存留戀。", category: "complacency" },
+  { id: 6, text: "「寶劍鋒從磨礪出，梅花香自苦寒來。」", author: "古代警世名言", desc: "寶劍的鋒芒來自不斷打磨，梅花的清香來自頂住嚴冬酷寒。", category: "adversity" },
+  { id: 7, text: "「人無遠慮，必有近憂。」", author: "《論語·衛靈公》", desc: "如果一個人沒有長遠的思慮與戒心，眼前必會出現憂患事故。", category: "complacency" },
+  { id: 8, text: "「艱難困苦，玉汝于成。」", author: "張載《西銘》", desc: "艱難困苦的磨練，就像琢磨玉石一樣，能幫助你成就非凡大器。", category: "adversity" },
+  { id: 9, text: "「奢靡之始，危亡之漸。」", author: "《新唐書》", desc: "生活奢侈浮華是敗壞的開始，也是國家走向危亡的徵兆。", category: "complacency" },
+  { id: 10, text: "「那些殺不死我的，必使我更強大。」", author: "尼采 (Friedrich Nietzsche)", desc: "生命中所有沉重的打擊只要沒摧毀你，都將化為你成長的力量。", category: "adversity" },
+  { id: 11, text: "「溫水煮青蛙，不知死之將至。」", author: "現代寓言", desc: "青蛙在舒適漸熱的水中毫無警覺，最終在安逸中喪失跳出的生機。", category: "complacency" }
+];
+
+let cardLocations = {};
+
+function init() {
+  const pool = document.getElementById('cardsPool');
+  pool.innerHTML = '';
+  document.getElementById('cardsAdv').innerHTML = '';
+  document.getElementById('cardsCmp').innerHTML = '';
+  quotesData.forEach(q => {
+    cardLocations[q.id] = 'pool';
+    pool.appendChild(createCardElement(q));
+  });
+  updateCounts();
+}
+
+function createCardElement(q) {
+  const card = document.createElement('div');
+  card.className = 'quote-card';
+  card.id = `card-${q.id}`;
+  card.innerHTML = `
+    <div class="quote-text">${q.text}</div>
+    <div class="quote-author">—— ${q.author}</div>
+    <div class="quote-desc">📖 ${q.desc}</div>
+    <div class="action-buttons" id="actions-${q.id}">
+      <button class="btn-move btn-to-adv" onclick="moveCard(${q.id}, 'adversity')">🔥 歸入【生於憂患】</button>
+      <button class="btn-move btn-to-cmp" onclick="moveCard(${q.id}, 'complacency')">🧊 歸入【死於安樂】</button>
+    </div>
+  `;
+  return card;
+}
+
+function moveCard(id, targetZone) {
+  cardLocations[id] = targetZone;
+  const card = document.getElementById(`card-${id}`);
+  card.classList.remove('correct', 'wrong');
+  const actions = document.getElementById(`actions-${id}`);
+  if (targetZone === 'adversity') {
+    document.getElementById('cardsAdv').appendChild(card);
+    actions.innerHTML = `
+      <button class="btn-move btn-to-cmp" onclick="moveCard(${id}, 'complacency')">移至 🧊 死於安樂</button>
+      <button class="btn-move btn-return" onclick="moveCard(${id}, 'pool')">放回卡庫</button>
+    `;
+  } else if (targetZone === 'complacency') {
+    document.getElementById('cardsCmp').appendChild(card);
+    actions.innerHTML = `
+      <button class="btn-move btn-to-adv" onclick="moveCard(${id}, 'adversity')">移至 🔥 生於憂患</button>
+      <button class="btn-move btn-return" onclick="moveCard(${id}, 'pool')">放回卡庫</button>
+    `;
+  } else {
+    document.getElementById('cardsPool').appendChild(card);
+    actions.innerHTML = `
+      <button class="btn-move btn-to-adv" onclick="moveCard(${id}, 'adversity')">🔥 歸入【生於憂患】</button>
+      <button class="btn-move btn-to-cmp" onclick="moveCard(${id}, 'complacency')">🧊 歸入【死於安樂】</button>
+    `;
+  }
+  updateCounts();
+}
+
+function updateCounts() {
+  let advCount = 0, cmpCount = 0, paired = 0;
+  for (let id in cardLocations) {
+    if (cardLocations[id] === 'adversity') { advCount++; paired++; }
+    if (cardLocations[id] === 'complacency') { cmpCount++; paired++; }
+  }
+  document.getElementById('countAdv').innerText = `${advCount} 則`;
+  document.getElementById('countCmp').innerText = `${cmpCount} 則`;
+  document.getElementById('pairedCount').innerText = paired;
+}
+
+function submitCheck() {
+  let unassigned = 0;
+  for (let id in cardLocations) {
+    if (cardLocations[id] === 'pool') unassigned++;
+  }
+  if (unassigned > 0) {
+    alert(`還有 ${unassigned} 則名言尚未分類唷！請將所有名言全部分類後再送出核對。`);
+    return;
+  }
+  let correctCount = 0;
+  quotesData.forEach(q => {
+    const card = document.getElementById(`card-${q.id}`);
+    if (cardLocations[q.id] === q.category) {
+      card.className = 'quote-card correct';
+      correctCount++;
+    } else {
+      card.className = 'quote-card wrong';
+    }
+  });
+  const score = Math.round((correctCount / quotesData.length) * 100);
+  document.getElementById('scoreText').innerText = score;
+  const modal = document.getElementById('resultModal');
+  const icon = document.getElementById('modalIcon');
+  const title = document.getElementById('modalTitle');
+  const msg = document.getElementById('modalMsg');
+  if (score === 100) {
+    icon.innerText = '🏆';
+    title.innerText = '完美通關！100 分滿分！';
+    msg.innerHTML = '太精準了！不管是歐陽脩的「憂勞／逸豫」正反雙對，還是孟子的「疢疾」與陸贄的「多難興邦」，你都完全融會貫通！';
+  } else if (score >= 80) {
+    icon.innerText = '🌟';
+    title.innerText = `得分：${score} 分（表現優異）`;
+    msg.innerHTML = `答對了 ${correctCount} 題！請觀察紅色外框的卡片，看看是哪則名言分類錯囉！`;
+  } else {
+    icon.innerText = '💪';
+    title.innerText = `得分：${score} 分（再接再厲）`;
+    msg.innerHTML = `答對了 ${correctCount} 題。請記住：『疢疾、多難、憂勞』皆是生於憂患；『逸豫、酖毒、奢靡』皆是死於安樂！`;
+  }
+  modal.style.display = 'flex';
+}
+
+function closeModal() { document.getElementById('resultModal').style.display = 'none'; }
+function resetAll() { init(); document.getElementById('scoreText').innerText = '0'; }
+window.onload = init;
+</script>
+</body>
+</html>
